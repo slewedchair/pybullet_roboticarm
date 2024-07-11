@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<robot name="DUM-E">
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <cylinder length="0.4" radius="0.5"/>
+      </geometry>
+      <material name="white">
+        <color rgba="0.9 0.9 0.9 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <link name="base_rotation">
+    <visual>
+      <geometry>
+        <cylinder length="0.12" radius="0.4"/>
+      </geometry>
+      <material name="gray">
+        <color rgba="0.7 0.7 0.7 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="base_rotation_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="base_rotation"/>
+    <origin xyz="0 0 0.25" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.145" upper="3.145" effort="1000" velocity="1"/>
+  </joint>
+
+  <link name="lower_arm">
+    <visual>
+      <geometry>
+        <box size="0.2 0.2 1.3"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+  </link>
+
+  <joint name="lower_arm_joint" type="revolute">
+    <parent link="base_rotation"/>
+    <child link="lower_arm"/>
+    <origin xyz="0 0 0.2" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-0.855211" upper="1.0472" effort="1000" velocity="1"/>
+  </joint>
+
+  <link name="mid_arm">
+    <visual>
+      <geometry>
+        <cylinder length="0.8" radius="0.07"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+  </link>
+
+  <joint name="mid_arm_joint" type="revolute">
+    <parent link="lower_arm"/>
+    <child link="mid_arm"/>
+    <origin xyz="0 0 0.65" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.57" upper="1.57" effort="1000" velocity="1"/>
+  </joint>
+
+  <link name="mid_arm_extension">
+    <visual>
+      <geometry>
+        <cylinder length="0.6" radius="0.06"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+  </link>
+
+  <joint name="mid_arm_extension_joint" type="prismatic">
+    <parent link="mid_arm"/>
+    <child link="mid_arm_extension"/>
+    <origin xyz="0 0 0.35" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="0" upper="0.35" effort="1000" velocity="0.5"/>
+  </joint>
+
+  <link name="upper_arm">
+    <visual>
+      <geometry>
+        <cylinder length="0.3" radius="0.05"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+  </link>
+
+  <joint name="upper_arm_joint" type="revolute">
+    <parent link="mid_arm_extension"/>
+    <child link="upper_arm"/>
+    <origin xyz="0 0 0.25" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.57" upper="1.57" effort="1000" velocity="1"/>
+  </joint>
+  
+  <link name="wrist">
+    <visual>
+      <geometry>
+        <sphere radius="0.08"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+  </link>
+  
+  <joint name="wrist_rotation" type="revolute">
+    <parent link="upper_arm"/>
+    <child link="wrist"/>
+    <origin xyz="0 0 0.15" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.145" upper="3.145" effort="1000" velocity="1"/>
+  </joint>
+  
+  <link name="claw_base">
+    <visual>
+      <geometry>
+        <cylinder length="0.1" radius="0.05"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+  </link>
+  
+  <joint name="claw_rotation" type="continuous">
+    <parent link="wrist"/>
+    <child link="claw_base"/>
+    <origin xyz="0 0 0.1" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  
+  <link name="finger_1">
+    <visual>
+      <geometry>
+        <box size="0.02 0.02 0.1"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+  </link>
+  
+  <joint name="finger_1_joint" type="revolute">
+    <parent link="claw_base"/>
+    <child link="finger_1"/>
+    <origin xyz="0.05 0 0.05" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-0.7" upper="0" effort="100" velocity="0.5"/>
+  </joint>
+  
+  <link name="finger_2">
+    <visual>
+      <geometry>
+        <box size="0.02 0.02 0.1"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+  </link>
+  
+  <joint name="finger_2_joint" type="revolute">
+    <parent link="claw_base"/>
+    <child link="finger_2"/>
+    <origin xyz="-0.025 0.0433 0.05" rpy="0 0 2.0944"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-0.7" upper="0" effort="100" velocity="0.5"/>
+  </joint>
+  
+  <link name="finger_3">
+    <visual>
+      <geometry>
+        <box size="0.02 0.02 0.1"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+  </link>
+  
+  <joint name="finger_3_joint" type="revolute">
+    <parent link="claw_base"/>
+    <child link="finger_3"/>
+    <origin xyz="-0.025 -0.0433 0.05" rpy="0 0 -2.0944"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-0.7" upper="0" effort="100" velocity="0.5"/>
+  </joint>
+</robot>
