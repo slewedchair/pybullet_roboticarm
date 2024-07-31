@@ -34,7 +34,7 @@ class PathExecutor:
             p.addUserDebugLine(start_pos, end_pos, color, lineWidth=2, lifeTime=0)
         print("Path visualized")
 
-    def has_reached_goal(self, goal_position, tolerance=0.15):
+    def has_reached_goal(self, goal_position, tolerance=0.10):
         current_position = self.robot_controller.get_end_effector_position()
         distance = np.linalg.norm(np.array(current_position) - np.array(goal_position))
         return distance < tolerance

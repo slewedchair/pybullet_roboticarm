@@ -11,12 +11,12 @@ def main():
     p.connect(p.GUI)
     p.setAdditionalSearchPath(pybullet_data.getDataPath())
     p.loadURDF("plane.urdf")
-    p.setGravity(0, 0, -9.81)
+    # p.setGravity(0, 0, -9.81)
 
-    robot_controller = RobotController("DUME.urdf")
+    robot_controller = RobotController("DUME.urdf", useFixedBase=1)
     robot_controller.load_robot()
 
-    obstacle1 = p.loadURDF("cube_small.urdf", [0.2, 0.2, 0.1])
+    obstacle1 = p.loadURDF("cube_small.urdf", [0.9, 0.9, 1.15])
     obstacle2 = p.loadURDF("cube_small.urdf", [-0.2, -0.2, 0.1])
 
     start_config = [0] * robot_controller.num_joints
