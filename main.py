@@ -13,20 +13,20 @@ def main():
     p.loadURDF("plane.urdf")
     # p.setGravity(0, 0, -9.81)
 
-    robot_controller = RobotController("DUME.urdf", useFixedBase=1)
+    robot_controller = RobotController("DUME.urdf")
     robot_controller.load_robot()
 
-    obstacle1 = p.loadURDF("cube_small.urdf", [0.9, 0.9, 1.15])
-    obstacle2 = p.loadURDF("cube_small.urdf", [-0.2, -0.2, 0.1])
+    #obstacle1 = p.loadURDF("cube_small.urdf", [0.9, 0.9, 1.15])
+    #obstacle2 = p.loadURDF("cube_small.urdf", [-0.2, -0.2, 0.1])
 
     start_config = [0] * robot_controller.num_joints
-    end_effector_goal = [1.3, 1.2, 1.2]  
+    end_effector_goal = [-0.6, 1.1, 1.2]  
 
     start_pos = robot_controller.get_end_effector_position()
     p.addUserDebugLine([0, 0, 0], start_pos, [1, 0, 0], 5, 0)
     p.addUserDebugLine([0, 0, 0], end_effector_goal, [0, 0, 1], 5, 0)
 
-    planner = InformedRRTStarPlanner(robot_controller.robot_id, start_config, end_effector_goal, max_iter=140, base_step_size=0.05, min_clearance=0.1)
+    planner = InformedRRTStarPlanner(robot_controller.robot_id, start_config, end_effector_goal, max_iter=500, base_step_size=0.05, min_clearance=0.1)
     path = planner.plan()
 
     if path:

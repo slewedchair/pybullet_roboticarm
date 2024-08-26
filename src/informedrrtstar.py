@@ -32,8 +32,9 @@ class InformedRRTStarPlanner:
         ranges = []
         for i in range(p.getNumJoints(self.robot_id)):
             info = p.getJointInfo(self.robot_id, i)
-            if info[3] > -1:  #non-fixed joints
-                ranges.append((info[8], info[9]))  #(lower limit, upper limit)
+            if info[3] > -1:  # non-fixed joints
+                ranges.append((info[8], info[9]))  # (lower limit, upper limit)
+                print(f"Joint {i}: {info[1]}, Range: {info[8]} to {info[9]}")
         return ranges
 
     def set_goal_config(self):
@@ -82,7 +83,14 @@ class InformedRRTStarPlanner:
     def sample_free(self):
         if random.random() < self.goal_bias:
             return Node(self.goal.config)
-        return Node([random.uniform(r[0], r[1]) for r in self.joint_ranges])
+        
+        config = []
+        for i, r in enumerate(self.joint_ranges):
+            if i == 0:  # Assuming joint 0 is the base rotation
+                config.append(random.uniform(-np.pi, np.pi))
+            else:
+                config.append(random.uniform(r[0], r[1]))
+        return Node(config)
 
     def informed_sample(self):
         if self.c_best is None:
